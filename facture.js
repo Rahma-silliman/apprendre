@@ -6,8 +6,8 @@ const theMarg = document.querySelector('#rech-facture');
 const firstLine = document.querySelector('#marge');
 
 
-function reversed() {
-    newTable.reverse()
+function sort() {
+    dataOfFacture.sort(compareNames)
 }
 
 let newTable = [];
@@ -20,16 +20,16 @@ for (let i = 0; i < factureTable.length; i++) {
 
 }
 
-for (let i = 0; i < iconsCaches.length; i++) {
+// for (let i = 0; i < iconsCaches.length; i++) {
 
-    iconsCaches[i].innerHTML = `<i class="fa-solid fa-arrow-down-z-a">`
-    i = i + 1
-    firstLine.querySelectorAll('th')[i].addEventListener('click', () => {
-        iconsCaches[i].classList.remove('hidden');
-        console.log('hello');
-    });
-    i = i - 1;
-}
+//     iconsCaches[i].innerHTML = `<i class="fa-solid fa-arrow-down-z-a">`
+//     i = i + 1
+//     firstLine.querySelectorAll('th')[i].addEventListener('click', () => {
+//         iconsCaches[i].classList.remove('hidden');
+//         console.log('hello');
+//     });
+//     i = i - 1;
+// }
 
 
 // Fonction de comparaison pour trier en fonction de la propriété 'name'
@@ -55,55 +55,66 @@ let compteurClick = 0
 
 
 // Get icon elements
-const icon1 = document.querySelector('.un');
-const icon2 = document.querySelector('.deux');
+const icon1 = document.querySelectorAll('.un');
+const icon2 = document.querySelectorAll('.deux');
 
-// Initialize a variable to keep track of which icon is currently visible
+
 let currentIcon = 1;
+let j;
 
-// Add click event listener to button
-theMarg.addEventListener('click', () => {
-    // Toggle display of icons based on the current icon
+
+
+const add = ()=>{
     if (currentIcon === 1) {
-        icon1.style.display = 'none';
-        icon2.style.display = 'block';
+        const dataOfFacture = JSON.parse(localStorage.getItem('dataFacture'));
+        dataFacture.innerHTML = ""
+        dataOfFacture.forEach(element =>{
+            dataFacture.innerHTML += `<tr><td>${element.id}</td> <td>${element.name}</td><td>${element.date}</td><td><button class='btn'>Voir</button></td></tr>`
+        })
+      
+        icon1[j].style.display = 'inline-block';
+        icon2[j].style.display = 'none';
+        console.log(icon1[0]);
         currentIcon = 2;
+        console.log(icon1);
+        console.log(typeof a);
     } else {
-        icon1.style.display = 'block';
-        icon2.style.display = 'none';
+        icon2[j].style.display = 'inline-block';
+        icon1[j].style.display = 'none';
         currentIcon = 1;
+        dataFacture.innerHTML = ""
+      sort()
+        dataFacture.innerHTML = ""
+        dataOfFacture.forEach((value, index) => {
+            dataFacture.innerHTML += `<tr><td>${value.id}</td> <td>${value.name}</td><td>${value.date}</td><td><button class='btn'>Voir</button></td></tr>`
+        })
+        console.log(icon2);
     }
+ 
     console.log(currentIcon);
+}
+theMarg.addEventListener('click', () => {
+   j = 0
+   add()
 });
-
+for (let i = 1; i < 3; i++) {
+    firstLine.querySelectorAll('th')[i].addEventListener('click', () => {
+   j = i
+        add()
+});
+}
 if (dataFacture) {
     dataOfFacture.forEach((element, indice) => {
-
-        dataFacture.innerHTML += `<tr><td>${element.id}</td> <td>${element.name}</td><td>${element.date}</td><td><button class='btn'>Voir</button></td></tr>`
+   
+            dataFacture.innerHTML += `<tr><td>${element.id}</td> <td>${element.name}</td><td>${element.date}</td><td><button class='btn'>Voir</button></td></tr>`
         newTable.push(element.id);
         tableOfLabo.push(element.name);
         tableOfdate.push(element.date);
-        theMarg.addEventListener('click', () => {
-            if (compteurClick === 2) {
-                dataFacture.innerHTML = ""
-                let tableRenversed = newTable.reverse();
-                let tableReversedOfName = tableOfLabo.reverse();
-                let tableRenversedOfDate = tableOfdate.reverse()
-                for (let i = 0; i < tableOfdate.length; i++) {
-                    dataFacture.innerHTML += `<tr><td>${newTable[i]}</td><td>${tableOfLabo[i]}</td><td>${tableOfdate[i]}</td><td><button class='btn'>Voir</button></td></tr>`
-                }
-}
-        });
+
+        
+    
     });
-    for (let i = 1; i < 3; i++) {
-            firstLine.querySelectorAll('th')[i].addEventListener('click', () => {
-            dataOfFacture.sort(compareNames);
-            dataFacture.innerHTML = ""
-            dataOfFacture.forEach((value, index) => {
-                dataFacture.innerHTML += `<tr><td>${value.id}</td> <td>${value.name}</td><td>${value.date}</td><td><button class='btn'>Voir</button></td></tr>`
-            })
-        });
-    }
+  
 
 }
 function compare(a) {

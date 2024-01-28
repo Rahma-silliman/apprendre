@@ -34,6 +34,7 @@ const tableUsers = [
   let imageURL = URL.createObjectURL(file);
   console.log(imageURL);
   image.src = imageURL;
+  image2.src = imageURL
 
   localStorage.setItem("photo",imageURL);
 }
